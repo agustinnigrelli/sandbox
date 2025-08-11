@@ -19,7 +19,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 }
 
 func (r *Router) handle(method, pattern string, handler http.HandlerFunc) {
-	r.mux.HandleFunc(pattern, func(w http.ResponseWriter, req *http.Request) {
+	fullPattern := r.prefix + pattern
+	r.mux.HandleFunc(fullPattern, func(w http.ResponseWriter, req *http.Request) {
 		if req.Method != method {
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 			return
