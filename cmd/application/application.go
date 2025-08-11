@@ -1,13 +1,19 @@
 package application
 
 import (
-	"fmt"
+	"log"
 	"net/http"
+
+	"github.com/agustinnigrelli/sandbox/utils/web"
 )
 
 type App struct {
-	router *http.ServeMux
+	router *web.Router
 }
+
+const (
+	host = ":8080"
+)
 
 func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	a.router.ServeHTTP(w, r)
@@ -15,11 +21,12 @@ func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func NewApp() *App {
 	app := &App{
-		router: http.NewServeMux(),
+		router: web.NewRouter(),
 	}
-	app.BuildRoutes()
-	fmt.Println("Server running on http://localhost:8080")
-	http.ListenAndServe(":8080", app)
+	routeGroup := app.router.Group("/sandbox/v1")
+	app.BuildRoutes(routeGroup)
+	log.Println("Server running on port", host)
+	http.ListenAndServe(host, app)
 
 	return app
 }
