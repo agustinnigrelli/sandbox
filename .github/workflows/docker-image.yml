@@ -19,6 +19,6 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
     - name: Build Docker image
-      run: docker build -t sandbox
+      run: docker build -t sandbox .
     - name: Push to Dockerhub
       run: docker push agustinnigrelli/sandbox:latest
