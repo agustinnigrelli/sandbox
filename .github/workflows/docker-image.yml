@@ -21,4 +21,6 @@ jobs:
     - name: Build Docker image
       run: docker build -t sandbox .
     - name: Push to Dockerhub
-      run: docker push agustinnigrelli/sandbox:latest
+      run: |
+        docker tag agustinnigrelli/sandbox
+        docker push agustinnigrelli/sandbox:latest
